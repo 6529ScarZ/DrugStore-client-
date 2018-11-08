@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Drug Store</title>
+        <link rel='SHORTCUT ICON' href='C:/DrugStore/images/cross.ico'>
+        <meta charset="UTF-8">
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="template/bootstrap-4.1.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/plugins/Jprint/print.min.css">
+        <link rel="stylesheet" href="plugins/font-awesome-4.6.3/css/font-awesome.min.css">
+        </head>
+        <body>
+<a href="#" class="btn btn-success" onclick="popup('index.html', popup, 1366, 768);">test</a>
+        
+        <script src="template/jquery-3.3.1.min.js"></script>
+        <script src="template/jquery.cookie.js"></script>
+        <script src="template/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        //var path = localStorage.getItem("path");console.log(path)
+        // var path = 'C:/DrugStore/';
+        //     $("a").attr("onclick","popup('"+path+"index.html', popup, 1366, 768);");
+        </script>
+        <script type="text/javascript">
+            function popup(url, name, windowWidth, windowHeight) {
+                myleft = (screen.width) ? (screen.width - windowWidth) / 2 : 100;
+                mytop = (screen.height) ? (screen.height - windowHeight) / 2 : 100;
+                properties = "width=" + windowWidth + ",height=" + windowHeight;
+                properties += ",scrollbars=yes, top=" + mytop + ",left=" + myleft;
+                window.open(url, name, properties);
+            }
+            
+            function GetjQueryCookie(name,value) { 
+                $.cookie(name, value);
+            }
+        </script>
+    </body>
+        </html>

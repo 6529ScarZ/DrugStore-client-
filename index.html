@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drug Store</title>
+    <link rel='SHORTCUT ICON' href='images/cross.ico'>
+    <meta charset="UTF-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="template/bootstrap-4.1.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="plugins/Jprint/print.min.css">
+    <link rel="stylesheet" href="plugins/font-awesome-4.6.3/css/font-awesome.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
+    <!-- My tools -->
+    <script src="MyTools/createTableAjax.js" type="text/javascript"></script>
+    <script src="MyTools/AJAXCharts.js" type="text/javascript"></script>
+    <script src="MyTools/reportLayout.js" type="text/javascript"></script>
+    <!-- End My tools -->
+    <link rel="stylesheet" href="plugins/jquery-ui-1.11.4.custom/jquery-ui-1.11.4.custom.css" />
+    <link rel="stylesheet" href="plugins/jquery-ui-1.11.4.custom/SpecialDateSheet.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="plugins/DataTables/datatables.min.css"/> -->
+    <link rel="stylesheet" type="text/css" href="plugins/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+    <style>
+        /* unvisited link */
+        a.linkfoot:link {
+            color: white;
+        }
+    </style>
+    <!-- <script>
+        $(function(){
+            $("a.hidelink").each(function (index, element){
+                var href = $(this).attr("href");
+                $(this).attr("hiddenhref", href);
+                $(this).removeAttr("href");
+            });
+            $("a.hidelink").click(function(){
+                url = $(this).attr("hiddenhref");
+                window.open(url, '_blank');
+            })
+        });
+    </script>
+<style>
+    a.hidelink {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style> -->
+    <style type="text/css">
+        .block {
+            width: 115px;
+            height: 135px;
+            margin: 0px;
+            background: #FFFFFF;
+            float: right;
+        }
+
+        @media print {
+
+            #div_print,
+            #nav_bc {
+                display: none;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        function loadAjax(content, pagesend, data = null, getfunc = null, datatype = 'json', method = 'POST') {
+            var subgetfunc = getfunc.split("?");
+            $.when($.ajax({
+                url: pagesend,
+                method: method,
+                data: { data: data },
+                dataType: datatype
+            }))
+                .then(function (result, textStatus, jqXHR) {
+                    if (subgetfunc[0] == 'AddUserModal') {
+                        AddUserModal();
+                    } else if (subgetfunc[0] == 'TBUser') {
+                        TBUser(content);
+                    } else if (subgetfunc[0] == 'AddSellerModal') {
+                        AddSellerModal(content);
+                    } else if (subgetfunc[0] == 'TBSeller') {
+                        TBSeller(content);
+                    } else if (subgetfunc[0] == 'TBMed') {
+                        TBMed(content);
+                    } else if (subgetfunc[0] == 'TBBrand') {
+                        TBBrand(content);
+                    } else if (subgetfunc[0] == 'TBImp') {
+                        TBImp(content);
+                    } else if (subgetfunc[0] == 'AddItem') {
+                        AddItem(content,result.data);
+                    }
+                    // else if (subgetfunc[0] == 'logout') {
+                    //     alert(result);
+                    //     loadPage(content, 'content/NoLogon_index.html');
+                    //     location.reload();
+                    // }
+                });
+        }
+
+        function DeleteData(pagesend, table = null, field = null, id = null, pageresend = 'JsonData/tempSendData.php', datatype = 'json', method = 'POST') {
+            if (confirm('กรุณายืนยันการลบอีกครั้ง !!!')) {
+                $.when($.ajax({
+                    url: pagesend,
+                    method: method,
+                    data: { table: table, field: field, id: id },
+                    dataType: datatype
+                })).then(function (result, textStatus, jqXHR) {
+                    alert(result);
+                    loadAjax('#index_content', $.cookie('Readerurl') + 'tempSendDataAPI.php', '', getfunc = pageresend)
+                });
+            }
+        }
+
+        function selectMash(content, data, title, check = null) {
+            $.getJSON($.cookie('Readerurl') + data, function (CmD) { 
+                var option="<option value=''> " + title + " </option>";
+                for (var key in CmD) {
+                    if (CmD[key].id == check) { var select = 'selected'; } else { var select = ''; }
+                    option +="<option value='" + CmD[key].id + "' " + select + "> " + CmD[key].name + " </option>";
+                } 
+                $(content).empty().append(option);
+                $(".select2").select2();
+            });
+
+        }
+
+        function imageIsLoaded(e) {
+            $("#file").css("color", "green");
+            $('#image_preview').css("display", "block");
+            $('#previewing').attr('src', e.target.result);
+            $('#previewing').attr('width', '150px');
+            //$('#previewing').attr('height', '230px');
+        }
+    </script>
+    <!--        <script type="text/javascript" LANGUAGE="javascript">
+function myFunction(){
+   WshShell = new ActiveXObject("Wscript.Shell"); //Create WScript Object
+   WshShell.run("D:\\xampp/htdocs\\dmh-token\\JSmartCardReader\\JSmartCardReader.exe"); // Please change the path and file name with your relevant available path in client system. This code can be used to execute .exe file as well
+}
+</SCRIPT>-->
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" id="head-nav"></nav>
+        <p>
+            <div class='content-wrapper'>
+                <section class='content'>
+                    <div class="col-lg-12 col-xl-12" id="index_content"><a href="#" onclick="popup('index.html', popup, 1366, 768);">test</a></div>
+                    <div id='createModal'></div>
+                </section>
+            </div>
+            <p><br><br><!-- content-wrapper -->
+                <nav class="navbar fixed-bottom  navbar-dark bg-dark" id="foot-nav"></nav>
+    </div><!-- wrapper -->
+    <!-- <input onkeyup="inputDigits(sensor)" type="number" -->
+    <script src="template/jquery-3.3.1.min.js"></script>
+    <script src="template/jquery.cookie.js"></script>
+    <script src="template/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+    <script src="plugins/select2/select2.full.min.js"></script>
+    <script src="plugins/Jprint/print.min.js"></script>
+    <script src="plugins/jquery-ui-1.11.4.custom/jquery-ui-1.11.4.custom.js"></script>
+    <!-- My script -->
+    <script src="MyTools/DatepickerThai.js" type="text/javascript"></script>
+    <script src="MyJS/loading.js"></script>
+    <script src="MyJS/spin.js"></script>
+    <!-- End My script -->
+    <!-- <script src="plugins/DataTables/jquery.dataTables.min.js"></script>
+        <script src="plugins/DataTables/dataTables.bootstrap.min.js"></script> -->
+    <script src="plugins/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="plugins/DataTables/DataTables-1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script type="text/javascript" src="DataTables/datatables.min.js"></script> -->
+    <!--HighChart-->
+    <script src="plugins/Highcharts/code/highcharts.js"></script>
+    <script src="plugins/Highcharts/code/modules/exporting.js"></script>
+    <script src="plugins/Highcharts/code/modules/data.js"></script>
+    <script src="plugins/Highcharts/code/modules/drilldown.js"></script>
+    <script src="plugins/Highcharts/code/highcharts-3d.js"></script>
+    <!-- <script src="plugins/jquery-ui-1.11.4.custom/jquery-ui-1.11.4.custom.js"></script> -->
+
+    <!--<script>
+        <!-- JS content -->
+    <script src="JScontent/navMenu.js" type="text/javascript"></script>
+    <!-- <script src="JScontent/login_page.js" type="text/javascript"></script> -->
+    <script src="JScontent/setUser_modal.js" type="text/javascript"></script>
+    <script src="JScontent/TBuser.js" type="text/javascript"></script>
+    <script src="JScontent/setSeller_modal.js" type="text/javascript"></script>
+    <script src="JScontent/TBseller.js" type="text/javascript"></script>
+    <script src="JScontent/TBmed.js" type="text/javascript"></script>
+    <script src="JScontent/setMed_modal.js" type="text/javascript"></script>
+    <script src="JScontent/TBBrand.js" type="text/javascript"></script>
+    <script src="JScontent/setBrand_modal.js" type="text/javascript"></script>
+    <script src="JScontent/TBImp.js" type="text/javascript"></script>
+    <script src="JScontent/setImp_modal.js" type="text/javascript"></script>
+    <script src="JScontent/Add_Item.js" type="text/javascript"></script>
+    <script src="JScontent/maintoken.js" type="text/javascript"></script>
+    <script src="JScontent/setNHSO_modal.js" type="text/javascript"></script>
+    <script src="JScontent/setReader_modal.js" type="text/javascript"></script>
+	<script src="JScontent/setURL_modal.js" type="text/javascript"></script>
+	<script src="JScontent/setLotItem_modal.js" type="text/javascript"></script>
+    <script src="JScontent/login_modal.js" type="text/javascript"></script>
+    <!-- End JS content -->
+    
+    <script lang="javascript" type="text/javascript">
+        $(function () {
+            if (localStorage.getItem("url") == '') {
+                alert('ยังไม่ได้ set URL ครับ !!!!');
+            } else {
+                if ($.cookie("user_id")) {
+                    mainToken('#index_content');
+                }
+            }
+        })
+    </script>
+    <!--                <script type="text/javascript">
+            function loadAjax(content, getfunc = null, pagesend = '', data = null, datatype = 'json', method = 'POST') {
+                var subgetfunc = getfunc.split("?");console.log(subgetfunc[0]);
+                $.when($.ajax({
+                    url: pagesend,
+                    method: method,
+                    data: {data: data},
+                    dataType: datatype}))
+                .then(function( result, textStatus, jqXHR ) {
+                    subgetfunc[0]+(content, result);
+                    });
+                }
+            </script>-->
+    <script type="text/javascript">
+        function popup(url, name, windowWidth, windowHeight) {
+            myleft = (screen.width) ? (screen.width - windowWidth) / 2 : 100;
+            mytop = (screen.height) ? (screen.height - windowHeight) / 2 : 100;
+            properties = "width=" + windowWidth + ",height=" + windowHeight;
+            properties += ",scrollbars=yes, top=" + mytop + ",left=" + myleft;
+            window.open(url, name, properties);
+        }
+
+        function GetjQueryCookie(name, value) {
+            $.cookie(name, value);
+        }
+    </script>
+    <script type="text/javascript">
+        function inputDigits(sensor) {
+            var regExp = /[0-9.-]$/;
+            if (!regExp.test(sensor.value)) {
+                alert("กรอกตัวเลขเท่านั้นครับ");
+                sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+            }
+        }
+    </script>
+    <!--scrip check ตัวอักษร-->
+    <script type="text/javascript">
+        function inputString(sensor) {
+            var regExp = /[A-Za-zก-ฮะ-็่-๋์]$/;
+            if (!regExp.test(sensor.value)) {
+                alert("กรอกตัวอักษรเท่านั้นครับ");
+                sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
