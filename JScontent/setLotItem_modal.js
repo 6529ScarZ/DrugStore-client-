@@ -3,7 +3,7 @@ $("#createModal").empty().append("<div class='modal' id='AddLotItemModal' role='
                                     +"<div class='modal-dialog' role='document'><div class='modal-content'><div class='modal-header'>"
                                     +"<h5 class='modal-title' id='AddLotItemModalLabel'></h5>"
                                     +"<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
-                                    +"<form action='' name='frmaddLT' id='frmaddLT' method='post' enctype='multipart/form-data'>"
+                                    +"<form action='' name='frmaddLI' id='frmaddLI' method='post' enctype='multipart/form-data'>"
                                     +"<div class='modal-body' id='modelStore'><span id='Store_detail'></span></div>"
                                     +"<div class='modal-footer'></div></form></div></div></div>");
     $('#AddLotItemModal').on('show.bs.modal', function (event) {
@@ -92,11 +92,11 @@ $("#createModal").empty().append("<div class='modal' id='AddLotItemModal' role='
                     cache: false,
                     processData: false
                   }   
-$.ajax(settings).done(function (result) { console.log(settings.data)
+$.ajax(settings).done(function (result) {
 modal.modal('hide')
 alert(result.messege);
 $("#body_text").empty();
-AddItem("index_content",id);
+AddItem("index_content",data.lot_id);
                                                                             })
                                         }));                            
                 });
