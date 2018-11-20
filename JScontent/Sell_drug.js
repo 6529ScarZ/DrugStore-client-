@@ -1,20 +1,23 @@
-function AddItem (content,id=null) { 
+function SellDrug (content,id=null) { 
     var RL = new ReportLayout(content);
     RL.GetRL();
    
-    $("li#page").empty().text(" เพิ่มรายการ")
-    $("h2").empty().prepend("<img src='images/icon_set2/gear.ico' width='40'> ").append(" เพิ่มรายการ");
-    $("li#prev").show();
-    $("#back").empty().append(" นำเข้ายา").attr("onclick","$('#body_text').empty();TBImp('index_content');");
-    $("span.card-title").empty().append(" เพิ่มรายการ");
+    //$("li#page").empty().text(" ขายยา")
+    $("li#page").remove();
+    $("h2").empty().prepend("<img src='images/icon_set2/gear.ico' width='40'> ").append(" ขายยา");
+    $("li#prev").remove();
+    //$("#back").empty().append(" นำเข้ายา").attr("onclick","$('#body_text').empty();TBImp('index_content');");
+    $("#back").remove();
+    $("span.card-title").empty().append(" ขายยา");
     $("#add_body").prepend("<span id='body_text'></span>")
-    $.getJSON($.cookie('Readerurl')+'DT_Import.php',{data: id}, function (data) {
-        $("#body_text").empty().append("<b>นำเข้าครั้งที : "+data[0].ID+" วันที่ : "+data[0].lot_date+" จากร้าน : "+data[0].name+"</b><p>");
+    // $.getJSON($.cookie('Readerurl')+'DT_Import.php',{data: id}, function (data) {
+    //     $("#body_text").empty().append("<b>นำเข้าครั้งที : "+data[0].ID+" วันที่ : "+data[0].lot_date+" จากร้าน : "+data[0].name+"</b><p>");
         //$("#item-input").empty().append();
 
     $("#contentGr").empty().append($("<form action='' name='frmaddIM' id='frmaddIM' method='post' enctype='multipart/form-data'>"
                                 +"<div class='card border-success'>"
-                                +"<div class='card-header'><input type='button' class='btn btn-success' id='plus-btn' value='+ เพิ่มรายการ'> <input type='button' class='btn btn-danger' id='minus-btn' value='- ลบรายการ'></div>"
+                                +"<div class='card-header'>"
+                                +"<input type='text' class='form-control-sm' id='read_barcode' placeholder='ใส่ Barcode' autofocus> <input type='button' class='btn btn-success' id='plus-btn' value='+ เพิ่มรายการ'> <input type='button' class='btn btn-danger' id='minus-btn' value='- ลบรายการ'></div>"
                                 +"<div class='card-body'>"
                                 +"<div class='container d-inline-block'><div class='row'> NO."
                                 +"<div class='col col-lg-2 form-group'>ยี่ห้อ</div>"
@@ -24,7 +27,7 @@ function AddItem (content,id=null) {
                                 +"<div class='col col-lg-2 form-group'>Barcode</div>"
                                 +"<div class='col col-lg-1s form-group'>หมดอายุ</div></div>"
                                 +"<div class='container d-inline-block row' style='background-color: #eee;' id='item-input'><p></div><p><div id='add-button'></div></div></div></div></form>"));
- 
+                                //var hasFocus = $('#read_barcode').is(':focus');
                                 var i=0;
                                 if(i==0){ $('#minus-btn').hide(); }//else{$('#minus-btn').show()}
     $('#plus-btn').click(function () {
@@ -34,7 +37,7 @@ function AddItem (content,id=null) {
                             +"<div class='col col-lg-2 form-group'><input type='text' name='sell_price[]' class='form-control form-control-sm' id='sell_price[]' placeholder='ราคาขาย/ชิ้น'></div>"
                             +"<div class='col col-lg-2 form-group'><input type='text' name='barcode[]' class='form-control form-control-sm' id='barcode[]' placeholder='Barcode'></div>"
                             +"<div class='col col-lg-1S form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ'>"
-                            +"<input type='hidden' id='lot_id[]' name='lot_id[]' value='"+data[0].ID+"'><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div></div>")
+                            +"<input type='hidden' id='lot_id[]' name='lot_id[]' value=''><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div></div>")
                 $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_lotitem'>"
                                                 +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>")
                                                 ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>บันทึก</button></center>"));         
@@ -71,7 +74,7 @@ AddItem("index_content",id);
                  
         
 }));
-});
+//});
     //$("a#adduser").attr("onclick","AddBrandModal();").attr("data-toggle","modal").attr("data-target","#AddBrandModal");                 
     var column1 = ["เลขที่","ยี่ห้อ","ราคา/หน่วย","จำนวน","ราคาขาย/หน่วย","Barcode","วันหมดอายุ","แก้ไข","ลบ"];
     
