@@ -16,6 +16,7 @@ $("#createModal").empty().append("<div class='modal' id='AddBrandModal' role='di
                                     ,$("<div class='form-group'><label for='mash_sec'>ตัวยารอง1 : </label><br><select name='mash_sec' class='form-control select2' id='mash_sec'></select></div>")
                                     ,$("<div class='form-group'><label for='mash_th'>ตัวยารอง2 : </label><br><select name='mash_th' class='form-control select2' id='mash_th'></select></div>")
                                     ,$("<div class='form-group'><label for='drug_kind'>ชนิด : </label><br><select name='drug_kind' class='form-control select2' id='drug_kind' required></select></div>")
+                                    ,$("<div class='form-group'><label for='mash_th'>Barcode : </label><br><INPUT TYPE='text' NAME='barcode' id='barcode' class='form-control' placeholder='barcode'></div>")
                                     ,$("<div class='form-group'>MAX. : <INPUT TYPE='text' NAME='max' id='max' class='form-control' placeholder='ระบุจำนวนสูงสุด' required></div>")
                                     ,$("<div class='form-group'>MIN. : <INPUT TYPE='text' NAME='min' id='min' class='form-control' placeholder='ระบุจำนวนต่ำสุด' required></div>"));
         if(recipient == null){
@@ -70,11 +71,14 @@ $("#createModal").empty().append("<div class='modal' id='AddBrandModal' role='di
             selectMash("#mash_sec","DT_medi.php","เลือกตัวยา",data.mash_sec);
             selectMash("#mash_th","DT_medi.php","เลือกตัวยา",data.mash_th);
             selectMash("#drug_kind","DT_drugkind.php","เลือกชนิด",data.drug_kind);
+            $("input#barcode").attr("value",data.barcode);
             $("input#max").attr("value",data.max);
             $("input#min").attr("value",data.min);
             $("#max").attr("onkeyup","inputDigits(this)");
             $("#min").attr("onkeyup","inputDigits(this)"); 
-                 
+             if(data.receive==0){
+                $("span#Store_detail").append("<div class='form-group'>คงเหลือ : <INPUT TYPE='text' NAME='receive' id='receive' class='form-control' placeholder='กรณีเซทเครื่องใหม่'></div>")
+             }    
             $("span#Store_detail").append("<input type='hidden' id='method' name='method' value='edit_brand'>"
                                     +"<input type='hidden' id='user_id' name='db_id' value='"+data.db_id+"'>"
                                     +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>");   
@@ -103,7 +107,7 @@ $("#createModal").empty().append("<div class='modal' id='AddBrandModal' role='di
                                                 cache: false,
                                                 processData: false
                                               } 
-                        $.ajax(settings).done(function (result) { 
+                        $.ajax(settings).done(function (result) { console.log(result)
                         modal.modal('hide')
                         alert(result.messege);
                         TBBrand('index_content');

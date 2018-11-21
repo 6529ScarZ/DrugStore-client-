@@ -17,35 +17,45 @@ function SellDrug (content,id=null) {
     $("#contentGr").empty().append($("<form action='' name='frmaddIM' id='frmaddIM' method='post' enctype='multipart/form-data'>"
                                 +"<div class='card border-success'>"
                                 +"<div class='card-header'>"
-                                +"<input type='text' class='form-control-sm' id='read_barcode' placeholder='ใส่ Barcode' autofocus> <input type='button' class='btn btn-success' id='plus-btn' value='+ เพิ่มรายการ'> <input type='button' class='btn btn-danger' id='minus-btn' value='- ลบรายการ'></div>"
+                                +"<input type='text' class='form-control-sm' id='read_barcode' name='read_barcode' placeholder='ใส่ Barcode' autofocus> <input type='button' class='btn btn-success' id='plus-btn' value='+ เพิ่มรายการ'> <input type='button' class='btn btn-danger' id='minus-btn' value='- ลบรายการ'></div>"
                                 +"<div class='card-body'>"
                                 +"<div class='container d-inline-block'><div class='row'> NO."
                                 +"<div class='col col-lg-2 form-group'>ยี่ห้อ</div>"
-                                +"<div class='col col-lg-2 form-group'>ราคา/หน่วย</div>"
-                                +"<div class='col col-lg-1 form-group'>จำนวน</div>"
                                 +"<div class='col col-lg-2 form-group'>ราคาขาย/หน่วย</div>"
-                                +"<div class='col col-lg-2 form-group'>Barcode</div>"
                                 +"<div class='col col-lg-1s form-group'>หมดอายุ</div></div>"
                                 +"<div class='container d-inline-block row' style='background-color: #eee;' id='item-input'><p></div><p><div id='add-button'></div></div></div></div></form>"));
                                 //var hasFocus = $('#read_barcode').is(':focus');
                                 var i=0;
                                 if(i==0){ $('#minus-btn').hide(); }//else{$('#minus-btn').show()}
     $('#plus-btn').click(function () {
-                $("#item-input").append("<div class='row' id='d"+(i+1)+"'> &nbsp;&nbsp;&nbsp;"+(i+1)+".  <div class='col col-lg-2 form-group'><select name='db_id[]' class='form-control select2' id='db_id"+i+"' required></select></div>"
-                            +"<div class='col col-lg-2 form-group'><input type='text' name='item_price[]' class='form-control form-control-sm' id='item_price[]' placeholder='ราคา/ชิ้น'></div>"
-                            +"<div class='col col-lg-1 form-group'><input type='text' name='item_amount[]' class='form-control form-control-sm' id='item_amount[]' placeholder='จำนวน'></div>"
-                            +"<div class='col col-lg-2 form-group'><input type='text' name='sell_price[]' class='form-control form-control-sm' id='sell_price[]' placeholder='ราคาขาย/ชิ้น'></div>"
-                            +"<div class='col col-lg-2 form-group'><input type='text' name='barcode[]' class='form-control form-control-sm' id='barcode[]' placeholder='Barcode'></div>"
-                            +"<div class='col col-lg-1S form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ'>"
-                            +"<input type='hidden' id='lot_id[]' name='lot_id[]' value=''><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div></div>")
-                $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_lotitem'>"
+        if($("#read_barcode").val()==''){
+            alert("กรุณาระบุ Barcode ครับ!!!");
+            $("#read_barcode").focus();
+            //e.preventDefault();
+        }else{
+            $.getJSON($.cookie('Readerurl')+'detail_LIAPI(barcode).php',{data: $("#read_barcode").val()}, function (data) { console.log(data);
+                if(data=='ไม่มีข้อมูล'){
+                    alert(data);
+                }else{
+                    $("#item-input").append("<div class='row' id='d"+(i+1)+"'> &nbsp;&nbsp;&nbsp;"+(i+1)+".  <div class='col col-lg-2 form-group'><select name='db_id[]' class='form-control select2' id='db_id"+i+"' disabled></select></div>"
+                    +"<div class='col col-lg-2 form-group'><input type='text' name='sell_price[]' class='form-control form-control-sm' id='sell_price[]' value='"+data.sell_price+"' placeholder='ราคาขาย/ชิ้น' readonly></div>"
+                    +"<div class='col col-lg-2 form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ' readonly></div>"
+                    +"<input type='hidden' id='lot_id[]' name='lot_id[]' value=''><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div>")
+
+                    $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_lotitem'>"
                                                 +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>")
-                                                ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>บันทึก</button></center>"));         
-                            selectMash("#db_id"+i,"DT_Brander.php","เลือกยี่ห้อ");
+                                                ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>ขาย</button></center>"));         
+                            selectMash("#db_id"+i,"DT_Brander.php","เลือกยี่ห้อ",data.db_id);
                             var DP = new DatepickerThai();
                             DP.GetDatepicker('input#expire_date'+i);
+                            $('input#expire_date'+i).datepicker("setDate",new Date(data.expire_date));
                             i++;
                             if(i!=0){$('#minus-btn').show()}
+                }              
+            })
+    }
+    $("#read_barcode").val('').focus();
+    //$("#read_barcode").empty().focus();            
     });
     $('#minus-btn').click(function () {
         if(i==1){ $('#minus-btn').hide();$("#IMsubmit").hide(); }//else{$('#minus-btn').show()}

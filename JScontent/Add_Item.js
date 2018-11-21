@@ -21,7 +21,6 @@ function AddItem (content,id=null) {
                                 +"<div class='col col-lg-2 form-group'>ราคา/หน่วย</div>"
                                 +"<div class='col col-lg-1 form-group'>จำนวน</div>"
                                 +"<div class='col col-lg-2 form-group'>ราคาขาย/หน่วย</div>"
-                                +"<div class='col col-lg-2 form-group'>Barcode</div>"
                                 +"<div class='col col-lg-1s form-group'>หมดอายุ</div></div>"
                                 +"<div class='container d-inline-block row' style='background-color: #eee;' id='item-input'><p></div><p><div id='add-button'></div></div></div></div></form>"));
  
@@ -32,9 +31,8 @@ function AddItem (content,id=null) {
                             +"<div class='col col-lg-2 form-group'><input type='text' name='item_price[]' class='form-control form-control-sm' id='item_price[]' placeholder='ราคา/ชิ้น'></div>"
                             +"<div class='col col-lg-1 form-group'><input type='text' name='item_amount[]' class='form-control form-control-sm' id='item_amount[]' placeholder='จำนวน'></div>"
                             +"<div class='col col-lg-2 form-group'><input type='text' name='sell_price[]' class='form-control form-control-sm' id='sell_price[]' placeholder='ราคาขาย/ชิ้น'></div>"
-                            +"<div class='col col-lg-2 form-group'><input type='text' name='barcode[]' class='form-control form-control-sm' id='barcode[]' placeholder='Barcode'></div>"
-                            +"<div class='col col-lg-1S form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ'>"
-                            +"<input type='hidden' id='lot_id[]' name='lot_id[]' value='"+data[0].ID+"'><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div></div>")
+                            +"<div class='col col-lg-2 form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ'></div>"
+                            +"<input type='hidden' id='lot_id[]' name='lot_id[]' value='"+data[0].ID+"'><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div>")
                 $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_lotitem'>"
                                                 +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>")
                                                 ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>บันทึก</button></center>"));         
@@ -73,7 +71,7 @@ AddItem("index_content",id);
 }));
 });
     //$("a#adduser").attr("onclick","AddBrandModal();").attr("data-toggle","modal").attr("data-target","#AddBrandModal");                 
-    var column1 = ["เลขที่","ยี่ห้อ","ราคา/หน่วย","จำนวน","ราคาขาย/หน่วย","Barcode","วันหมดอายุ","แก้ไข","ลบ"];
+    var column1 = ["เลขที่","ยี่ห้อ","ราคา/หน่วย","จำนวน","ราคาขาย/หน่วย","วันหมดอายุ","แก้ไข","ลบ"];
     
         var CTb = new createTableAjax();
         //RemovejQueryCookie('year')

@@ -15,7 +15,6 @@ $("#createModal").empty().append("<div class='modal' id='AddLotItemModal' role='
                                     ,$("<div class='form-group'><label for='mash_pri'>ราคา/หน่วย : </label><br><input type='text' name='item_price' class='form-control form-control-sm' id='item_price' placeholder='ราคา/ชิ้น' required></div>")
                                     ,$("<div class='form-group'><label for='mash_sec'>จำนวน : </label><br><input type='text' name='item_amount' class='form-control form-control-sm' id='item_amount' placeholder='จำนวน' required></div>")
                                     ,$("<div class='form-group'><label for='mash_th'>ราคาขาย/หน่วย : </label><br><input type='text' name='sell_price' class='form-control form-control-sm' id='sell_price' placeholder='ราคาขาย/ชิ้น' required></div>")
-                                    ,$("<div class='form-group'><label for='drug_kind'>Barcode : </label><br><input type='text' name='barcode' class='form-control form-control-sm' id='barcode' placeholder='Barcode' required></div>")
                                     ,$("<div class='form-group'>หมดอายุ : <input type='text' name='expire_date' class='form-control form-control-sm' id='expire_date' placeholder='วันหมดอายุ' required></div>"));
         // if(recipient == null){
         //     selectMash("#mash_pri","DT_medi.php","เลือกตัวยา");
@@ -68,7 +67,6 @@ $("#createModal").empty().append("<div class='modal' id='AddLotItemModal' role='
                     $("input#item_price").attr("value",data.item_price);
                     $("input#item_amount").attr("value",data.item_amount);
                     $("input#sell_price").attr("value",data.sell_price);
-                    $("input#barcode").attr("value",data.barcode);
                     var DP = new DatepickerThai();
                     DP.GetDatepicker('input#expire_date');
                     $('input#expire_date').datepicker("setDate",new Date(data.expire_date));
