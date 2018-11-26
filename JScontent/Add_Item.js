@@ -49,12 +49,13 @@ function AddItem (content,id=null) {
     });
     $("#frmaddIM").on('submit', (function (e) {
          e.preventDefault(); 
+         var dataForm = new FormData(this);
                 var settings = {
                     type: "POST",
                     url: $.cookie('Readerurl')+"prcimpLIAPI.php",
                     async: true,
                     crossDomain: true,
-                    data: new FormData(this),
+                    data: dataForm,
                     contentType: false,
                     cache: false,
                     processData: false

@@ -22,6 +22,7 @@ function SellDrug (content,id=null) {
                                 +"<div class='container d-inline-block'><div class='row'> NO."
                                 +"<div class='col col-lg-2 form-group'>ยี่ห้อ</div>"
                                 +"<div class='col col-lg-2 form-group'>ราคาขาย/หน่วย</div>"
+                                +"<div class='col col-lg-2 form-group'>จำนวน/ชิ้น</div>"
                                 +"<div class='col col-lg-1s form-group'>หมดอายุ</div></div>"
                                 +"<div class='container d-inline-block row' style='background-color: #eee;' id='item-input'><p></div><p><div id='add-button'></div></div></div></div></form>"));
                                 //var hasFocus = $('#read_barcode').is(':focus');
@@ -33,19 +34,21 @@ function SellDrug (content,id=null) {
             $("#read_barcode").focus();
             //e.preventDefault();
         }else{
-            $.getJSON($.cookie('Readerurl')+'detail_LIAPI(barcode).php',{data: $("#read_barcode").val()}, function (data) { console.log(data);
+            $.getJSON($.cookie('Readerurl')+'detail_LIAPI(barcode).php',{data: $("#read_barcode").val()}, function (data) {
                 if(data=='ไม่มีข้อมูล'){
                     alert(data);
                 }else{
-                    $("#item-input").append("<div class='row' id='d"+(i+1)+"'> &nbsp;&nbsp;&nbsp;"+(i+1)+".  <div class='col col-lg-2 form-group'><select name='db_id[]' class='form-control select2' id='db_id"+i+"' disabled></select></div>"
+                    $("#item-input").append("<div class='row' id='d"+(i+1)+"'> &nbsp;&nbsp;&nbsp;"+(i+1)+".  <div class='col col-lg-2 form-group'><input type='text' name='db_id_[]' class='form-control form-control-sm' id='db_id_[]' value='"+data.brand_name+"' readonly>"
+                    +"<input type='hidden' id='db_id[]' name='db_id[]' value='"+data.db_id+"'></div>"
                     +"<div class='col col-lg-2 form-group'><input type='text' name='sell_price[]' class='form-control form-control-sm' id='sell_price[]' value='"+data.sell_price+"' placeholder='ราคาขาย/ชิ้น' readonly></div>"
+                    +"<div class='col col-lg-2 form-group'><input type='text' name='sell_amount[]' class='form-control form-control-sm' id='sell_amount[]' value='1' placeholder='ระบุจำนวน' readonly></div>"
                     +"<div class='col col-lg-2 form-group'><input type='text' name='expire_date[]' class='form-control form-control-sm' id='expire_date"+i+"' placeholder='วันหมดอายุ' readonly></div>"
-                    +"<input type='hidden' id='lot_id[]' name='lot_id[]' value=''><input type='hidden' id='count[]' name='count[]' value='"+i+"'></div>")
+                    +"<input type='hidden' id='count[]' name='count[]' value='"+i+"'></div>")
 
-                    $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_lotitem'>"
+                    $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_sellitem'>"
                                                 +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>")
                                                 ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>ขาย</button></center>"));         
-                            selectMash("#db_id"+i,"DT_Brander.php","เลือกยี่ห้อ",data.db_id);
+                            
                             var DP = new DatepickerThai();
                             DP.GetDatepicker('input#expire_date'+i);
                             $('input#expire_date'+i).datepicker("setDate",new Date(data.expire_date));
@@ -64,12 +67,13 @@ function SellDrug (content,id=null) {
     });
     $("#frmaddIM").on('submit', (function (e) {
          e.preventDefault(); 
+            var dataForm = new FormData(this);
                 var settings = {
                     type: "POST",
-                    url: $.cookie('Readerurl')+"prcimpLIAPI.php",
+                    url: $.cookie('Readerurl')+"prcimpSIAPI.php",
                     async: true,
                     crossDomain: true,
-                    data: new FormData(this),
+                    data: dataForm,
                     contentType: false,
                     cache: false,
                     processData: false
@@ -77,7 +81,7 @@ function SellDrug (content,id=null) {
 $.ajax(settings).done(function (result) {
 alert(result.messege);
 $("#body_text").empty();
-AddItem("index_content",id);
+SellDrug("index_content");
 //$("#index_content").empty().load('content/add_user.html');
 
                 })

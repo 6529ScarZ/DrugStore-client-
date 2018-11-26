@@ -9,10 +9,11 @@
         <link rel="stylesheet" href="template/bootstrap-4.1.1/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="/plugins/Jprint/print.min.css">
         <link rel="stylesheet" href="plugins/font-awesome-4.6.3/css/font-awesome.min.css">
+        <script src="plugins/hide-address-bar.js"></script>
         </head>
         <body><br>
             <center><a href="#" class="btn btn-success" onclick="popup('index.html', popup, 1366, 768);">เข้าสู่โปรแกรมร้านขายยา</a></center>
-        
+            
         <script src="template/jquery-3.3.1.min.js"></script>
         <script src="template/jquery.cookie.js"></script>
         <script src="template/bootstrap-4.1.1/js/bootstrap.min.js"></script>
@@ -26,7 +27,7 @@
                 myleft = (screen.width) ? (screen.width - windowWidth) / 2 : 100;
                 mytop = (screen.height) ? (screen.height - windowHeight) / 2 : 100;
                 properties = "width=" + windowWidth + ",height=" + windowHeight;
-                properties += ",scrollbars=yes, top=" + mytop + ",left=" + myleft;
+                properties += "location=no,toolbar=no,menubar=no,scrollbars=yes,status=yes, top=" + mytop + ",left=" + myleft;
                 window.open(url, name, properties);
             }
             
