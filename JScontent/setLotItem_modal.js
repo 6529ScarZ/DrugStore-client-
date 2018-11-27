@@ -62,7 +62,7 @@ $("#createModal").empty().append("<div class='modal' id='AddLotItemModal' role='
         //                                                              }
         //                                 }));                            
         //     }else{
-                $.getJSON($.cookie('Readerurl')+'detail_LIAPI.php',{data: recipient}, function (data) { console.log(data)
+                $.getJSON($.cookie('Readerurl')+'detail_LIAPI.php',{data: recipient}, function (data) {
                     selectMash("#db_id","DT_Brander.php","เลือกยี่ห้อ",data.db_id);
                     $("input#item_price").attr("value",data.item_price);
                     $("input#item_amount").attr("value",data.item_amount);

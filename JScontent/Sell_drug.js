@@ -46,6 +46,7 @@ function SellDrug (content,id=null) {
                     +"<input type='hidden' id='count[]' name='count[]' value='"+i+"'></div>")
 
                     $("#add-button").empty().append($("<input type='hidden' id='method' name='method' value='add_sellitem'>"
+                                                +"<input type='hidden' id='seller' name='seller' value='"+$.cookie("user_id")+"'>"
                                                 +"<input type='hidden' id='path' name='path' value='"+$.cookie('path')+"'>")
                                                 ,$("<center><button type='submit' class='btn btn-primary' id='IMsubmit'>ขาย</button></center>"));         
                             
@@ -90,13 +91,13 @@ SellDrug("index_content");
 }));
 //});
     //$("a#adduser").attr("onclick","AddBrandModal();").attr("data-toggle","modal").attr("data-target","#AddBrandModal");                 
-    var column1 = ["เลขที่","ยี่ห้อ","ราคา/หน่วย","จำนวน","ราคาขาย/หน่วย","Barcode","วันหมดอายุ","แก้ไข","ลบ"];
+    var column1 = ["เลขที่","วันที่","เวลา","จำนวน","ราคาขาย","ผู้ขาย","รายละเอียด","แก้ไข","ลบ"];
     
         var CTb = new createTableAjax();
         //RemovejQueryCookie('year')
         // GetjQueryCookie('year',nowyear)
-                  CTb.GetNewTableAjax('contentTB',$.cookie('Readerurl')+'DT_lotitem.php?'+id,$.cookie('Readerurl')+'tempSendDataAPI.php',column1
-                  ,'AddLotItemModal','lot_item','li_id',"AddItem",true,false,null,false,null,false,null,null,null,null,null,'dbtb');
+                  CTb.GetNewTableAjax('contentTB',$.cookie('Readerurl')+'DT_sellitem.php?'+id,$.cookie('Readerurl')+'tempSendDataAPI.php',column1
+                  ,'AddSellItemModal','bill','bill_id',"SellDrug",true,false,null,true,"detailLot",false,null,null,null,null,null,'dbtb');
         
        
         }
