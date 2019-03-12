@@ -1,7 +1,19 @@
 var createTableAjax = function () {
     
+    this.FileDel = function(file_del){
+        this.fileDel = file_del;
+        // var Filedel = this.fileDel;
+        // console.log(Filedel) 
+        // return Filedel;
+    }
+    //
     this.GetNewTableAjax = function (content,jsonsource,tempdata,cols,namefunc=null,deltable=null,delfield=null,resend=null,edit=false,process=false,pnamefunc=null
                                     ,detail=false,dmodal=null,print=false,printpage=null,red=null,orange=null,yellow=null,green=null,tid1=null,tid2=null,tid3=null) {
+                var fileDel =  this.fileDel;
+                if(fileDel==undefined){
+                    fileDel = 'DeleteFileAPI.php';
+                }
+                
                 var table = document.createElement ("table");
             	//table.border = "1px";
                 if(tid1!=null){
@@ -44,7 +56,7 @@ var createTableAjax = function () {
                     cache: false,
                     processData: false
                   }
-                $.when($.ajax(settings)).then( function (dataTB, textStatus, xhr) { 
+                $.when($.ajax(settings)).then( function (dataTB, textStatus, xhr) {
                     if(xhr.readyState==3){
                         $('#' + content + '').html("กำลังโหลดจ้า.... ^_^ ");
                     } 
@@ -100,13 +112,13 @@ var createTableAjax = function () {
                                         editButton.setAttribute("data-whatever",value[0]);
                                         //editButton.setAttribute("onclick","loadAjax('#index_content','"+tempdata+"','"+value[0]+"','"+namefunc+"');");
                                         
-
+                                  
 					var cellDel = row.insertCell (-1);
 					delButton = document.createElement("a");
 					cellDel.appendChild(delButton);
 					delButton.innerHTML = "<img src='images/icon_set1/file_delete.ico' width='25'>";
 					delButton.setAttribute("href","#");
-					delButton.setAttribute("onclick","DeleteData('http://localhost/DrugAPI/API/DeleteFileAPI.php','"+deltable+"','"+delfield+"','"+value[0]+"','"+resend+"','html');");
+					delButton.setAttribute("onclick","DeleteData('"+$.cookie('Readerurl') + fileDel+"','"+deltable+"','"+delfield+"','"+value[0]+"','"+resend+"','html');");
                                     }
             }
 //            	var container = document.getElementById (content);

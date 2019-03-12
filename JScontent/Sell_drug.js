@@ -96,8 +96,8 @@ SellDrug("index_content");
         var CTb = new createTableAjax();
         //RemovejQueryCookie('year')
         // GetjQueryCookie('year',nowyear)
-                  CTb.GetNewTableAjax('contentTB',$.cookie('Readerurl')+'DT_sellitem.php?'+id,$.cookie('Readerurl')+'tempSendDataAPI.php',column1
-                  ,'AddSellItemModal','bill','bill_id',"SellDrug",true,false,null,true,"detailLot",false,null,null,null,null,null,'dbtb');
+                  CTb.GetNewTableAjax('contentTB',$.cookie('Readerurl')+'DT_sellitem.php?A',$.cookie('Readerurl')+'tempSendDataAPI.php',column1
+                  ,'AddSellItemModal','bill','bill_id',"SellDrug",true,false,null,true,"DetailSellItemModal",false,null,null,null,null,null,'dbtb');
         
        
         }
